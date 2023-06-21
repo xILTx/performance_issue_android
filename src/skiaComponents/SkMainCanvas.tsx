@@ -1,17 +1,15 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Canvas, Group} from '@shopify/react-native-skia';
-import {Dimensions, View, Text} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import {EDGE, SkAvatar} from './SkAvatar';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import {useSharedValue, withDecay} from 'react-native-reanimated';
+import {useSharedValue} from 'react-native-reanimated';
 import {AVATAR_SIZE} from './SkAvatar';
 import HexGrid from '../utils/HexGrid';
 
 const width = Dimensions.get('window').width;
 
-export const AVATAR_NB = 50;
-
-export const CLICKABLE_ZONE_SIZE = EDGE + AVATAR_SIZE / 2;
+export const AVATAR_NB = 40;
 
 const AVATAR_ARRAY = [...new Array(AVATAR_NB)];
 
@@ -66,11 +64,9 @@ export const SkMainCanvas = () => {
     translateY.value += e.changeY;
   });
 
-  const composedGesture = Gesture.Race(panGesture);
-
   return (
-    <GestureDetector gesture={composedGesture}>
-      <View style={{flex: 1}}>
+    <GestureDetector gesture={panGesture}>
+      <View style={{flex: 1, paddingVertical: 32, backgroundColor: 'white'}}>
         <Canvas
           style={{flex: 1}}
           onLayout={e => setCanvasHeight(e.nativeEvent.layout.height)}>
