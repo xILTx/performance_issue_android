@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Canvas, Group} from '@shopify/react-native-skia';
+import {Canvas, Group, useFont} from '@shopify/react-native-skia';
 import {Dimensions, View} from 'react-native';
 import {EDGE, SkAvatar} from './SkAvatar';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
@@ -9,7 +9,7 @@ import HexGrid from '../utils/HexGrid';
 
 const width = Dimensions.get('window').width;
 
-export const AVATAR_NB = 40;
+export const AVATAR_NB = 50;
 
 const AVATAR_ARRAY = [...new Array(AVATAR_NB)];
 
@@ -66,24 +66,20 @@ export const SkMainCanvas = () => {
 
   return (
     <GestureDetector gesture={panGesture}>
-      <View style={{flex: 1, paddingVertical: 32, backgroundColor: 'white'}}>
-        <Canvas
-          style={{flex: 1}}
-          onLayout={e => setCanvasHeight(e.nativeEvent.layout.height)}>
-          <Group>
-            {AVATAR_ARRAY.map((_, index) => (
-              <SkAvatar
-                key={index}
-                x={translateX}
-                y={translateY}
-                index={index}
-                color={'mediumPurple'}
-                positions={positions}
-                canvasHeight={canvasHeight}
-              />
-            ))}
-          </Group>
-        </Canvas>
+      <View
+        style={{flex: 1, paddingVertical: 32, backgroundColor: 'white'}}
+        onLayout={e => setCanvasHeight(e.nativeEvent.layout.height)}>
+        {AVATAR_ARRAY.map((_, index) => (
+          <SkAvatar
+            key={index}
+            x={translateX}
+            y={translateY}
+            index={index}
+            color={'mediumpurple'}
+            positions={positions}
+            canvasHeight={canvasHeight}
+          />
+        ))}
       </View>
     </GestureDetector>
   );

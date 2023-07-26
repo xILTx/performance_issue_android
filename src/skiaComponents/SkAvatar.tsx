@@ -1,9 +1,10 @@
-import {Circle, Group} from '@shopify/react-native-skia';
+import {Circle, Group, Paint} from '@shopify/react-native-skia';
 import React from 'react';
 import {Dimensions} from 'react-native';
-import {
+import Animated, {
   SharedValue,
   interpolate,
+  useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated';
 import {Extrapolation} from 'react-native-reanimated';
@@ -54,7 +55,6 @@ export const SkAvatar = ({
     let translateX = dx;
     let translateY = dy;
 
-    // Check if bubble is in innerZonne
     if (
       Math.abs(avatarX) <= INNER_ZONE_X_RADIUS &&
       Math.abs(avatarY) <= INNER_ZONE_Y_RADIUS
@@ -127,21 +127,41 @@ export const SkAvatar = ({
   });
 
   ///////////////// ORIGIN POINT
-  const origin = useDerivedValue(() => {
+  // const origin = useDerivedValue(() => {
+  //   return {
+  //     x: positions[index].x + calculatedTransform.value[1].translateX!,
+  //     y: positions[index].y + calculatedTransform.value[2].translateY!,
+  //   };
+  // });
+
+  const viewStyle = useAnimatedStyle(() => {
     return {
-      x: positions[index].x + calculatedTransform.value[1].translateX!,
-      y: positions[index].y + calculatedTransform.value[2].translateY!,
+      transform: calculatedTransform.value,
     };
   });
 
   return (
-    <Group origin={origin} transform={calculatedTransform}>
-      <Circle
-        cx={positions[index].x}
-        cy={positions[index].y}
-        r={AVATAR_SIZE}
-        color={color}
-      />
-    </Group>
+    <Animated.View
+      style={[
+        {
+          position: 'absolute',
+          height: AVATAR_SIZE * 2,
+          width: AVATAR_SIZE * 2,
+          borderRadius: AVATAR_SIZE,
+          left: positions[index].x,
+          top: positions[index].y,
+          backgroundColor: color,
+        },
+        viewStyle,
+      ]}
+    />
+    // <Group origin={origin} transform={calculatedTransform}>
+    //   <Circle
+    //     cx={positions[index].x}
+    //     cy={positions[index].y}
+    //     r={AVATAR_SIZE}
+    //     color={color}
+    //   />
+    // </Group>
   );
 };
