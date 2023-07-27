@@ -9,7 +9,7 @@ import HexGrid from '../utils/HexGrid';
 
 const width = Dimensions.get('window').width;
 
-export const AVATAR_NB = 40;
+export const AVATAR_NB = 50;
 
 const AVATAR_ARRAY = [...new Array(AVATAR_NB)];
 
